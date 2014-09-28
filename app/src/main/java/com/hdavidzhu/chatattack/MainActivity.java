@@ -5,10 +5,14 @@ import android.os.Bundle;
 
 public class MainActivity extends Activity {
 
+    public String username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+
+        username = getSharedPreferences("ChatAttack", MODE_PRIVATE).getString("username","");
 
         // If we're being restored from a previous state,
         // then we don't need to do anything and should return or else
@@ -24,4 +28,5 @@ public class MainActivity extends Activity {
         getFragmentManager().beginTransaction()
                 .add(R.id.fragment_holder, chatFragment).commit();
     }
+
 }

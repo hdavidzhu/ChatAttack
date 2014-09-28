@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.firebase.client.Firebase;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,6 +21,8 @@ public class ChatAdapter extends ArrayAdapter<Chat> {
 
     private Context context;
     private int resource;
+
+    Firebase myFirebaseRef = new Firebase("https://chat-attack.firebaseio.com/");
 
     public ChatAdapter(Context context, List<Chat> chats, int resource){
         super(context, R.layout.chat_item);
@@ -56,14 +60,8 @@ public class ChatAdapter extends ArrayAdapter<Chat> {
             holder = (ChatHolder) view.getTag();
         }
 
-        fillViews(holder, chats.get(chats.size()-1));
+        fillViews(holder, getItem(position));
         return view;
-    }
-
-    @Override
-    public int getPosition(Chat item) {
-        Log.d("AdapterShit", String.valueOf(chats.size()-1));
-        return chats.size()-1;
     }
 
     private void fillViews(ChatHolder holder, Chat chat){
@@ -86,6 +84,7 @@ public class ChatAdapter extends ArrayAdapter<Chat> {
 
     public void addChat(Chat chat) {
         this.chats.add(chat);
+        myFirebaseRef.child("message").setValue("Do you have data? You'll love Firebase.");
         notifyDataSetChanged();
     }
 

@@ -3,7 +3,6 @@ package com.hdavidzhu.chatattack;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +16,13 @@ import java.util.List;
 
 public class ChatFragment extends Fragment{
 
-    Context context;    // Context from activity;
+    MainActivity context;    // Context from activity;
     List<Chat> storedChats;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.context = getActivity();
+        this.context = (MainActivity) getActivity();
         storedChats = new ArrayList<Chat>();
     }
 
@@ -53,16 +52,12 @@ public class ChatFragment extends Fragment{
                 String typedText = inputChat.getText().toString();
                 inputChat.setText("");
 
-                // storedChats.add(new Chat("David",typedText));
-
                 if (typedText.equals("")){
                     Toast.makeText(context, "Woah there, slow down and type some stuff."
                             , Toast.LENGTH_SHORT).show();
                 } else {
                     chatAdapter.addChat(new Chat("David",typedText));
                     chatListView.setSelection(chatAdapter.getCount() - 1);
-
-                    Log.d("My shit.",typedText);
                 }
             }
         });
