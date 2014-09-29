@@ -9,7 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,12 +25,13 @@ public class ChatAdapter extends ArrayAdapter<Chat> {
     private Context context;
     private int resource;
 
-    Firebase myFirebaseRef = new Firebase("https://chat-attack.firebaseio.com/");
+    Firebase myFirebaseRef;
 
     public ChatAdapter(Context context, List<Chat> chats, int resource){
         super(context, R.layout.chat_item);
         this.context = context;
         this.resource = resource;
+        myFirebaseRef = new Firebase("https://chat-attack.firebaseio.com/");
 
         addChats(chats);
     }
@@ -85,6 +89,17 @@ public class ChatAdapter extends ArrayAdapter<Chat> {
     public void addChat(Chat chat) {
         this.chats.add(chat);
         myFirebaseRef.child("message").setValue("Do you have data? You'll love Firebase.");
+        myFirebaseRef.child("message").addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                System.out.println(snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
+            }
+
+            @Override public void onCancelled(FirebaseError error) { }
+
+        });
+
         notifyDataSetChanged();
     }
 
