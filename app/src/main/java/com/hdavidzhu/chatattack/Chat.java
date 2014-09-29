@@ -14,6 +14,12 @@ public class Chat implements Comparable, Serializable {
         this.timestamp = System.currentTimeMillis();
     }
 
+    public Chat(String name, String message, String timestamp){
+        this.name = name;
+        this.message = message;
+        this.timestamp = Long.parseLong(timestamp,13);
+    }
+
     // Getters
     // They get stuff for Chat
     public String getName(){ return name; }
